@@ -7,5 +7,5 @@ import com.login.bean.Login;
 
 @Repository
 public interface LoginRepository extends CrudRepository<Login, Integer>{
-
+	Login findByUsername(String username);  
 }

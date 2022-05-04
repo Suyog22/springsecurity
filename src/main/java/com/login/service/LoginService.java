@@ -9,4 +9,8 @@ public interface LoginService {
 	public List<Login> getAllUsers();
 	
 	public void addUser(Login login);
+
+	public boolean isTokenValid(String jwtToken);
+	
+	public String signIn(Login login);
 }
