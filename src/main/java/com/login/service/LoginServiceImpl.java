@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.login.bean.Login;
+import com.login.exception.InvalidUserException;
 import com.login.repo.LoginRepository;
 import com.login.util.JwtUtils;
 
@@ -43,13 +44,8 @@ public class LoginServiceImpl implements LoginService{
 	
 	@Override
 	public String signIn(Login login) {
-		try {
-			authManager.authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword()));
-			return jwtUtils.generateToken(login.getUsername());
-		} catch (Exception e) {
-			log.error("Invalid User"+e);
-			return "Invalid User";
-		}
+		authManager.authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword()));
+		return jwtUtils.generateToken(login.getUsername());		
 	}
 
 	@Override

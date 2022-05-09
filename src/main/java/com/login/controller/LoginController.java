@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.login.bean.Login;
+import com.login.exception.InvalidUserException;
+import com.login.exception.UserAlreadyExistException;
 import com.login.service.LoginService;
 
 @RestController
@@ -28,15 +30,23 @@ public class LoginController {
 	}
 	
 	@GetMapping("/")
-	public ResponseEntity<String> signIn(@RequestBody Login login) {
-		String jwtToken = loginService.signIn(login);
-		return new ResponseEntity<String>(jwtToken, HttpStatus.OK);
+	public ResponseEntity<String> signIn(@RequestBody Login login) throws InvalidUserException {
+		try { 
+			String jwtToken = loginService.signIn(login);
+			return new ResponseEntity<String>(jwtToken, HttpStatus.OK);
+		} catch (Exception e) {
+			throw new InvalidUserException();
+		}
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<String> addUser(@RequestBody Login login) {
-		loginService.addUser(login);
-		return new ResponseEntity<String>("User added successfully", HttpStatus.CREATED);
+	public ResponseEntity<String> addUser(@RequestBody Login login) throws UserAlreadyExistException {
+		try {
+			loginService.addUser(login);
+			return new ResponseEntity<String>("User added successfully", HttpStatus.CREATED);
+		} catch (Exception e) {
+			throw new UserAlreadyExistException();
+		}
 	}
 	
 	@GetMapping("/validate/token")

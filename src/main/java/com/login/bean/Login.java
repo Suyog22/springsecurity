@@ -16,7 +16,7 @@ public class Login {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	int id;
 	
-	@Column(name="username")
+	@Column(name="username", length=15, unique = true)
 	String username;
 	
 	@Column(name="password")
